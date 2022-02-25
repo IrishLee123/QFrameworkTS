@@ -1,5 +1,5 @@
 import { Delegate } from "../Delegate/Delegate";
-import { IUnRegister } from "../Event/EventSystem";
+import { IUnRegister, UnRegisterDestroyTrigger } from "../Event/EventSystem";
 
 export class BindableProperty<T>{
 
@@ -38,7 +38,6 @@ export class BindableProperty<T>{
     public UnRegisterOnValueChanged(valueChangeFunc: (v: T) => void, target: object): void {
         this.mOnValueChanged?.removeListener(valueChangeFunc, target);
     }
-
 }
 
 export class BindablePropertyUnRegister<T> implements IUnRegister {
@@ -51,6 +50,16 @@ export class BindablePropertyUnRegister<T> implements IUnRegister {
         this.mBindableProperty = bindableProperty;
         this.mOnValueChanged = onValueChanged;
         this.mTarget = target;
+    }
+
+    public UnRegisterWhenGameObjectDestroyed(node: cc.Node): void {
+        let trigger = node.getComponent(UnRegisterDestroyTrigger);
+
+        if (!trigger) {
+            trigger = node.addComponent(UnRegisterDestroyTrigger);
+        }
+
+        trigger.AddUnRegister(this);
     }
 
     public UnRegister(): void {

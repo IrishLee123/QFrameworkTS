@@ -2,12 +2,13 @@ import { Delegate } from "../Delegate/Delegate";
 
 export interface IUnRegister {
     UnRegister(): void;
+    UnRegisterWhenGameObjectDestroyed(node: cc.Node): void;
 }
 
 export interface IEventSystem {
     Send<T>(eventType: string, e: T): void;
     Register<T>(type: string, onEvent: (e: T) => void, target: object): IUnRegister;
-    UnRegister<T>(type: string, onEvent: (e: T) => void, target: object);
+    UnRegister<T>(type: string, onEvent: (e: T) => void, target: object): void;
 }
 
 export interface IRegisterations { }

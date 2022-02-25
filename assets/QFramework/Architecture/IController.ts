@@ -26,11 +26,11 @@ export abstract class AbstractController extends cc.Component implements IContro
         return this.GetArchitecture().SendCommand<T>(command);
     }
 
-    public RegisterEvent<T>(eventType: string, onEvent: (v: T) => void, target: object): IUnRegister {
+    public RegisterEvent<T>(eventType: string, onEvent: (v?: T) => void, target: object): IUnRegister {
         return this.GetArchitecture().RegisterEvent<T>(eventType, onEvent, target);
     }
 
-    public UnRegisterEvent<T>(eventType: string, onEvent: (v: T) => void, target: object): void {
+    public UnRegisterEvent<T>(eventType: string, onEvent: (v?: T) => void, target: object): void {
         this.GetArchitecture().UnRegisterEvent(eventType, onEvent, target);
     }
 

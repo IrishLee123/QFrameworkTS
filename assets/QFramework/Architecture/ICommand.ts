@@ -39,7 +39,7 @@ export abstract class AbstractCommand implements ICommand {
         return this.mArchitecture.GetUtility<T>(key);
     }
 
-    public SendEvent<T>(eventType: string, e: T): void {
+    public SendEvent<T>(eventType: string, e: T = null): void {
         return this.mArchitecture.SendEvent<T>(eventType, e);
     }
 
