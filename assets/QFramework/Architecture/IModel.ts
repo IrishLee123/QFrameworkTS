@@ -1,10 +1,12 @@
 import { IArchitecture } from "./Architecture";
 import { IGetClassName } from "./ICanGetClassName";
 import { ICanSetArchitecture } from "./ICanSetArchitecture";
-import { ICanGetModel } from "./Rule/ICanGetModel";
+import { IUtility } from "./IUtility";
+import { ICanGetUtility } from "./Rule/ICanGetUtility";
+import { ICanSendEvent } from "./Rule/ICanSendEvent";
 
-export interface IModel extends IGetClassName, ICanSetArchitecture,
-    ICanGetModel {
+export interface IModel extends
+    IGetClassName, ICanSetArchitecture, ICanGetUtility, ICanSendEvent {
     Init(): void;
 }
 
@@ -15,21 +17,24 @@ export abstract class AbstractModel implements IModel {
     }
 
     private mArchitecture: IArchitecture = null;
-
     public SetArchitecture(architecture: IArchitecture): void {
         this.mArchitecture = architecture;
     }
 
-    public GetModel<T extends AbstractModel>(key: string): T {
-        return this.GetArchitecture().GetModel<T>(key);
+    public GetModel<T extends IModel>(key: string): T {
+        return this.mArchitecture.GetModel<T>(key);
+    }
+
+    public GetUtility<T extends IUtility>(key: string): T {
+        return this.mArchitecture.GetUtility<T>(key);
+    }
+
+    public SendEvent<T>(eventType: string, e: T): void {
+        this.SendEvent<T>(eventType, e);
     }
 
     public Init(): void {
         this.OnInit();
-    }
-
-    private GetArchitecture(): IArchitecture {
-        return this.mArchitecture;
     }
 
     protected abstract OnInit(): void;

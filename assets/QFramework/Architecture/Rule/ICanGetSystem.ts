@@ -1,5 +1,5 @@
-import { AbstractSystem } from "../ISystem";
+import { ISystem } from "../ISystem";
 
 export interface ICanGetSystem {
-    GetSystem<T extends AbstractSystem>(key: string): T;
+    GetSystem<T extends ISystem>(key: string): T;
 }
