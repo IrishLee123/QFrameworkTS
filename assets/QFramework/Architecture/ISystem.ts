@@ -19,9 +19,7 @@ export abstract class AbstractSystem implements ISystem {
 
     private mArchitecture: IArchitecture = null;
 
-    public GetClassName(): string {
-        return (<any>this).constructor.name;
-    }
+    public abstract GetClassName(): string;
 
     public SetArchitecture(architecture: IArchitecture): void {
         this.mArchitecture = architecture;

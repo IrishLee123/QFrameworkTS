@@ -10,6 +10,10 @@ export interface IGameCoreSystem extends ISystem {
 
 export class GameCoreSystem extends AbstractSystem implements IGameCoreSystem {
 
+    public GetClassName(): string {
+        return PointGameClassKey.GameCoreSystem;
+    }
+
     protected OnInit(): void {
 
         this.RegisterEvent<GameStartEvent>(EventType.GameStartEvent, this.onGameStart, this);

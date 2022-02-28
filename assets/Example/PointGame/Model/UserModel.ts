@@ -9,6 +9,10 @@ export interface IUserModel extends IModel {
 
 export class UserModel extends AbstractModel implements IUserModel {
 
+    public GetClassName(): string {
+        return PointGameClassKey.UserModel;
+    }
+
     public bestScore: BindableProperty<number> = new BindableProperty<number>(0);
 
     /**

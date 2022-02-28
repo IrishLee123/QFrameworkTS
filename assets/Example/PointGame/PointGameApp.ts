@@ -47,4 +47,5 @@ export const enum EventType {
     ReturnToStartEvent = "ReturnToStartEvent",
 
     CreateEnemyEvent = "CreateEnemyEvent",
+    
 }

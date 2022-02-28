@@ -2,10 +2,7 @@ import { IGetClassName } from "./ICanGetClassName";
 
 export interface IUtility extends IGetClassName { }
 
-export class AbstractUtility implements IUtility {
+export abstract class AbstractUtility implements IUtility {
 
-    public GetClassName(): string {
-        return (<any>this).constructor.name;
-    }
-
+    public abstract GetClassName(): string;
 }

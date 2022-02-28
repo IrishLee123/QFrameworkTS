@@ -12,9 +12,7 @@ export interface IModel extends
 
 export abstract class AbstractModel implements IModel {
 
-    public GetClassName(): string {
-        return (<any>this).constructor.name;
-    }
+    public abstract GetClassName(): string;
 
     private mArchitecture: IArchitecture = null;
     public SetArchitecture(architecture: IArchitecture): void {

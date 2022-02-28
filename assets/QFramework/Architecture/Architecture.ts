@@ -102,6 +102,7 @@ export class Architecture<T> implements IArchitecture {
 
     public RegisterUtility<T extends IUtility>(utility: T): void {
         this.mContianer.Register(utility.GetClassName(), utility);
+        console.error("register utility: " + utility.GetClassName());
     }
 
     public GetSystem<T extends ISystem>(key: string): T {
