@@ -2,6 +2,7 @@ import { Architecture } from "../../QFramework/Architecture/Architecture";
 import { ILocalStorage, LocalStorage } from "../../QFramework/Storage/LocalStorage";
 import { GameModel, IGameModel } from "./Model/GameModel";
 import { IUserModel, UserModel } from "./Model/UserModel";
+import { GameCoreSystem, IGameCoreSystem } from "./System/GameCoreSystem";
 
 export class PointGameApp extends Architecture<PointGameApp> {
 
@@ -17,6 +18,9 @@ export class PointGameApp extends Architecture<PointGameApp> {
         // Model
         this.RegisterModel<IUserModel>(new UserModel());
         this.RegisterModel<IGameModel>(new GameModel());
+
+        // System
+        this.RegisterSystem<IGameCoreSystem>(new GameCoreSystem());
     }
 
 }
@@ -29,6 +33,9 @@ export const enum PointGameClassKey {
     // Model
     UserModel = "UserModel",
     GameModel = "GameModel",
+
+    // System
+    GameCoreSystem = "GameCoreSystem",
 }
 
 export const enum EventType {
@@ -38,4 +45,6 @@ export const enum EventType {
     GameEndEvent = "GameEndEvent",
 
     ReturnToStartEvent = "ReturnToStartEvent",
+
+    CreateEnemyEvent = "CreateEnemyEvent",
 }

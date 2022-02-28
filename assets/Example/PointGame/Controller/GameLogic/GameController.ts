@@ -1,32 +1,49 @@
 import { IArchitecture } from "../../../../QFramework/Architecture/Architecture";
 import { AbstractController } from "../../../../QFramework/Architecture/IController";
-import { SettleGameCommand } from "../../Command/SettleGameCommand";
-import { EventType, PointGameApp } from "../../PointGameApp";
+import { CreateEnemyEvent } from "../../Event/Events";
+import { EventType, PointGameApp, PointGameClassKey } from "../../PointGameApp";
+import { IGameCoreSystem } from "../../System/GameCoreSystem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export class GameController extends AbstractController {
 
+    @property(cc.Prefab)
+    private pointPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    private bombPrefab: cc.Prefab = null;
+
     protected GetArchitecture(): IArchitecture {
         return PointGameApp.Interface;
     }
 
     protected start(): void {
-        this.RegisterEvent(EventType.GameStartEvent, this.onGameStart, this)
+        this.RegisterEvent<CreateEnemyEvent>(EventType.CreateEnemyEvent, this.onCreateEnemy, this)
             .UnRegisterWhenGameObjectDestroyed(this.node);
     }
 
     protected update(dt: number): void {
-        
+        this.GetSystem<IGameCoreSystem>(PointGameClassKey.GameCoreSystem).update(dt);
     }
 
-    private onGameStart(): void {
-        console.log("game start");
+    private onCreateEnemy(e: CreateEnemyEvent): void {
+        if (!e) {
+            return;
+        }
 
-        this.scheduleOnce(() => {
-            this.SendCommand<SettleGameCommand>(new SettleGameCommand());
-        }, 5);
+        if (e.type == 1) {
+            let enemyNode = cc.instantiate(this.pointPrefab);
+            this.node.addChild(enemyNode);
+            enemyNode.setPosition(this.node.convertToNodeSpaceAR(e.worldPos));
+            console.log("create enemy: " + e.worldPos.toString());
+        }else if (e.type = 2){
+            let bombNode = cc.instantiate(this.bombPrefab);
+            this.node.addChild(bombNode);
+            bombNode.setPosition(this.node.convertToNodeSpaceAR(e.worldPos));
+            console.log("create bomb: " + e.worldPos.toString());
+        }
     }
 
 }

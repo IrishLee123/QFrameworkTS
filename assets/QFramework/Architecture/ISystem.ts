@@ -47,7 +47,7 @@ export abstract class AbstractSystem implements ISystem {
         this.mArchitecture.UnRegisterEvent<T>(eventType, onEvent, target);
     }
 
-    public SendEvent<T>(eventType: string, e: T): void {
+    public SendEvent<T>(eventType: string, e?: T): void {
         this.mArchitecture.SendEvent<T>(eventType, e);
     }
 
