@@ -1,12 +1,11 @@
 import { AbstractCommand } from "../../../QFramework/Architecture/ICommand";
-import { IGameModel } from "../Model/GameModel";
-import { PointGameClassKey } from "../PointGameApp";
+import { GameModel, IGameModel } from "../Model/GameModel";
 
 export class KillEnemyCommand extends AbstractCommand {
 
     protected OnExecute(): void {
 
-        this.GetModel<IGameModel>(PointGameClassKey.GameModel).score.value += 1;
+        this.GetModel<IGameModel>(GameModel).score.value += 1;
 
     }
 }

@@ -1,8 +1,8 @@
 import { AbstractSystem, ISystem } from "../../../QFramework/Architecture/ISystem";
-import { CreateEnemyEvent, GameEndEvent, GameStartEvent } from "../Event/Events";
-import { IGameModel } from "../Model/GameModel";
-import { IUserModel } from "../Model/UserModel";
-import { EventType, PointGameClassKey } from "../PointGameApp";
+import { CreateEnemyEvent, GameStartEvent } from "../Event/Events";
+import { GameModel, IGameModel } from "../Model/GameModel";
+import { IUserModel, UserModel } from "../Model/UserModel";
+import { EventType } from "../PointGameApp";
 
 export interface IGameCoreSystem extends ISystem {
     update(dt: number): void;
@@ -10,20 +10,16 @@ export interface IGameCoreSystem extends ISystem {
 
 export class GameCoreSystem extends AbstractSystem implements IGameCoreSystem {
 
-    public GetClassName(): string {
-        return PointGameClassKey.GameCoreSystem;
-    }
-
     protected OnInit(): void {
 
         this.RegisterEvent<GameStartEvent>(EventType.GameStartEvent, this.onGameStart, this);
 
-        this.GetModel<IGameModel>(PointGameClassKey.GameModel).hp
+        this.GetModel<IGameModel>(GameModel).hp
             .RegisterOnValueChanged((v: number) => {
                 if (v <= 0) {
                     // 更新最高分
-                    let userModel = this.GetModel<IUserModel>(PointGameClassKey.UserModel);
-                    let gameModel = this.GetModel<IGameModel>(PointGameClassKey.GameModel);
+                    let userModel = this.GetModel<IUserModel>(UserModel);
+                    let gameModel = this.GetModel<IGameModel>(GameModel);
                     if (userModel.bestScore.value < gameModel.score.value) {
                         userModel.bestScore.value = gameModel.score.value;
                     }
@@ -84,7 +80,7 @@ export class GameCoreSystem extends AbstractSystem implements IGameCoreSystem {
         this.gameStarted = true;
         // 重置比赛数据
         this.totalTimer = 0;
-        this.GetModel<IGameModel>(PointGameClassKey.GameModel).hp.value = 1;
-        this.GetModel<IGameModel>(PointGameClassKey.GameModel).score.value = 0;
+        this.GetModel<IGameModel>(GameModel).hp.value = 1;
+        this.GetModel<IGameModel>(GameModel).score.value = 0;
     }
 }

@@ -25,19 +25,6 @@ export class PointGameApp extends Architecture<PointGameApp> {
 
 }
 
-export const enum PointGameClassKey {
-
-    // Utility
-    LocalStorage = "LocalStorage",
-
-    // Model
-    UserModel = "UserModel",
-    GameModel = "GameModel",
-
-    // System
-    GameCoreSystem = "GameCoreSystem",
-}
-
 export const enum EventType {
 
     GameStartEvent = "GameStartEvent",

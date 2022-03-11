@@ -27,16 +27,16 @@ export abstract class AbstractCommand implements ICommand {
         this.mArchitecture = architecture;
     }
 
-    public GetModel<T extends IModel>(key: string): T {
-        return this.mArchitecture.GetModel<T>(key);
+    public GetModel<T extends IModel>(type: { prototype: T }): T {
+        return this.mArchitecture.GetModel<T>(type);
     }
 
-    public GetSystem<T extends ISystem>(key: string): T {
-        return this.mArchitecture.GetSystem<T>(key);
+    public GetSystem<T extends ISystem>(type: { prototype: T }): T {
+        return this.mArchitecture.GetSystem<T>(type);
     }
 
-    public GetUtility<T extends IUtility>(key: string): T {
-        return this.mArchitecture.GetUtility<T>(key);
+    public GetUtility<T extends IUtility>(type: { prototype: T }): T {
+        return this.mArchitecture.GetUtility<T>(type);
     }
 
     public SendEvent<T>(eventType: string, e: T = null): void {

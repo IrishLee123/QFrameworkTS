@@ -1,8 +1,8 @@
 import { IArchitecture } from "../../../../QFramework/Architecture/Architecture";
 import { AbstractController } from "../../../../QFramework/Architecture/IController";
 import { CreateEnemyEvent } from "../../Event/Events";
-import { EventType, PointGameApp, PointGameClassKey } from "../../PointGameApp";
-import { IGameCoreSystem } from "../../System/GameCoreSystem";
+import { EventType, PointGameApp } from "../../PointGameApp";
+import { GameCoreSystem, IGameCoreSystem } from "../../System/GameCoreSystem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,10 +22,13 @@ export class GameController extends AbstractController {
     protected start(): void {
         this.RegisterEvent<CreateEnemyEvent>(EventType.CreateEnemyEvent, this.onCreateEnemy, this)
             .UnRegisterWhenGameObjectDestroyed(this.node);
+
+        this.node.getComponent(GameController);
+        this.node.getComponent("GameController");
     }
 
     protected update(dt: number): void {
-        this.GetSystem<IGameCoreSystem>(PointGameClassKey.GameCoreSystem).update(dt);
+        this.GetSystem<IGameCoreSystem>(GameCoreSystem).update(dt);
     }
 
     private onCreateEnemy(e: CreateEnemyEvent): void {
@@ -38,12 +41,11 @@ export class GameController extends AbstractController {
             this.node.addChild(enemyNode);
             enemyNode.setPosition(this.node.convertToNodeSpaceAR(e.worldPos));
             console.log("create enemy: " + e.worldPos.toString());
-        }else if (e.type = 2){
+        } else if (e.type = 2) {
             let bombNode = cc.instantiate(this.bombPrefab);
             this.node.addChild(bombNode);
             bombNode.setPosition(this.node.convertToNodeSpaceAR(e.worldPos));
             console.log("create bomb: " + e.worldPos.toString());
         }
     }
-
 }

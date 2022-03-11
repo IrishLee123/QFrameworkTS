@@ -1,8 +1,18 @@
-import { IGetClassName } from "./ICanGetClassName";
+import { IArchitecture } from "./Architecture";
+import { ICanSetArchitecture } from "./ICanSetArchitecture";
+import { ICanGetUtility } from "./Rule/ICanGetUtility";
 
-export interface IUtility extends IGetClassName { }
+export interface IUtility extends ICanSetArchitecture, ICanGetUtility { }
 
 export abstract class AbstractUtility implements IUtility {
 
-    public abstract GetClassName(): string;
+    private mArchitecture: IArchitecture = null;
+
+    public SetArchitecture(architecture: IArchitecture): void {
+        this.mArchitecture = architecture;
+    }
+
+    public GetUtility<T extends IUtility>(type: { prototype: T; }): T {
+        return this.mArchitecture.GetUtility(type);
+    }
 }

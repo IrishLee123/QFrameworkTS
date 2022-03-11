@@ -1,17 +1,12 @@
 import { AbstractModel, IModel } from "../../../QFramework/Architecture/IModel";
 import { BindableProperty } from "../../../QFramework/BindableProperty/BindableProperty";
-import { ILocalStorage } from "../../../QFramework/Storage/LocalStorage";
-import { PointGameClassKey } from "../PointGameApp";
+import { ILocalStorage, LocalStorage } from "../../../QFramework/Storage/LocalStorage";
 
 export interface IUserModel extends IModel {
     bestScore: BindableProperty<number>;
 }
 
 export class UserModel extends AbstractModel implements IUserModel {
-
-    public GetClassName(): string {
-        return PointGameClassKey.UserModel;
-    }
 
     public bestScore: BindableProperty<number> = new BindableProperty<number>(0);
 
@@ -20,7 +15,7 @@ export class UserModel extends AbstractModel implements IUserModel {
      */
     protected OnInit(): void {
 
-        let localStorage = this.GetUtility<ILocalStorage>(PointGameClassKey.LocalStorage);
+        let localStorage = this.GetUtility<ILocalStorage>(LocalStorage);
 
         // 初始化BestScore
         this.bestScore.value = localStorage.GetNumber(UserModelDataKey.BestScore, 0);

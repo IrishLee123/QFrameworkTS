@@ -14,12 +14,12 @@ export interface IController extends
 
 export abstract class AbstractController extends cc.Component implements IController {
 
-    public GetModel<T extends IModel>(key: string): T {
-        return this.GetArchitecture().GetModel<T>(key);
+    public GetModel<T extends IModel>(type: { prototype: T }): T {
+        return this.GetArchitecture().GetModel<T>(type);
     }
 
-    public GetSystem<T extends ISystem>(key: string): T {
-        return this.GetArchitecture().GetSystem<T>(key);
+    public GetSystem<T extends ISystem>(type: { prototype: T }): T {
+        return this.GetArchitecture().GetSystem<T>(type);
     }
 
     public SendCommand<T extends ICommand>(command: T): void {

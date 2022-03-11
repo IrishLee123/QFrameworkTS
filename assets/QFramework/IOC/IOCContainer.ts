@@ -6,13 +6,14 @@ export class IOCContainer {
         this.m.set(key, instance);
     }
 
-    public Get<T>(key: string): T {
-        if (!this.m.has(key)) {
-            console.error("IOCContainer err, get instance fail with " + key);
+    public Get<T>(type: { prototype: T }): T {
+        let className = type.prototype.constructor.name;
+        if (!this.m.has(className)) {
+            console.error("IOCContainer err, get instance fail with " + className);
             return null;
         }
 
-        return this.m.get(key) as T;
+        return this.m.get(className) as T;
     }
 
 }

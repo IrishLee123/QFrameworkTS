@@ -1,4 +1,3 @@
-import { PointGameClassKey } from "../../Example/PointGame/PointGameApp";
 import { AbstractUtility, IUtility } from "../Architecture/IUtility";
 
 export interface ILocalStorage extends IUtility {
@@ -17,10 +16,6 @@ export interface ILocalStorage extends IUtility {
 }
 
 export class LocalStorage extends AbstractUtility {
-
-    public GetClassName(): string {
-        return PointGameClassKey.LocalStorage;
-    }
 
     public SaveNumber(key: string, value: number): void {
         localStorage.setItem(key, value + "");
@@ -86,5 +81,9 @@ export class LocalStorage extends AbstractUtility {
             console.error("LocalStorage error: " + error);
             return result;
         }
+    }
+
+    public Test() {
+
     }
 }

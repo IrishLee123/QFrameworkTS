@@ -1,7 +1,7 @@
 import { IArchitecture } from "../../../../QFramework/Architecture/Architecture";
 import { AbstractController } from "../../../../QFramework/Architecture/IController";
-import { IUserModel } from "../../Model/UserModel";
-import { PointGameApp, PointGameClassKey } from "../../PointGameApp";
+import { IUserModel, UserModel } from "../../Model/UserModel";
+import { PointGameApp } from "../../PointGameApp";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,8 +12,8 @@ export class UserInfoUI extends AbstractController {
     private bestScoreLab: cc.Label = null;
 
     protected start(): void {
-        this.bestScoreLab.string = "最高分: " + this.GetModel<IUserModel>(PointGameClassKey.UserModel).bestScore.value
-        this.GetModel<IUserModel>(PointGameClassKey.UserModel).bestScore.
+        this.bestScoreLab.string = "最高分: " + this.GetModel<IUserModel>(UserModel).bestScore.value
+        this.GetModel<IUserModel>(UserModel).bestScore.
             RegisterOnValueChanged((v: number) => {
                 this.bestScoreLab.string = "最高分: " + Math.round(v);
             }, this);

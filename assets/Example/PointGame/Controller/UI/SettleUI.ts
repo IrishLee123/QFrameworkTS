@@ -1,9 +1,9 @@
 import { IArchitecture } from "../../../../QFramework/Architecture/Architecture";
 import { AbstractController } from "../../../../QFramework/Architecture/IController";
 import { ReturnToStartCommand } from "../../Command/ReturnToStartCommand";
-import { IGameModel } from "../../Model/GameModel";
-import { IUserModel } from "../../Model/UserModel";
-import { PointGameApp, PointGameClassKey } from "../../PointGameApp";
+import { GameModel, IGameModel } from "../../Model/GameModel";
+import { IUserModel, UserModel } from "../../Model/UserModel";
+import { PointGameApp } from "../../PointGameApp";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,8 +32,8 @@ export class SettleUI extends AbstractController {
     // }
 
     protected onEnable(): void {
-        this.currentScoreLab.string = "得分: " + this.GetModel<IGameModel>(PointGameClassKey.GameModel).score.value;
-        this.bestScoreLab.string = "最高分: " + this.GetModel<IUserModel>(PointGameClassKey.UserModel).bestScore.value;
+        this.currentScoreLab.string = "得分: " + this.GetModel<IGameModel>(GameModel).score.value;
+        this.bestScoreLab.string = "最高分: " + this.GetModel<IUserModel>(UserModel).bestScore.value;
     }
 
     public onBtnReturnClick(): void {

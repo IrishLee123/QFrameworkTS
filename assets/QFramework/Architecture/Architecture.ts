@@ -12,9 +12,9 @@ export interface IArchitecture {
     RegisterSystem<T extends ISystem>(system: T): void;
     RegisterUtility<T extends IUtility>(utility: T): void;
 
-    GetModel<T extends IModel>(key: string): T;
-    GetSystem<T extends ISystem>(key: string): T;
-    GetUtility<T extends IUtility>(key: string): T;
+    GetModel<T extends IModel>(type: { prototype: T }): T;
+    GetSystem<T extends ISystem>(type: { prototype: T }): T;
+    GetUtility<T extends IUtility>(type: { prototype: T }): T;
 
     SendCommand<T extends ICommand>(command: T): void;
     SendEvent<T>(eventType: string, event?: T): void;
@@ -79,7 +79,8 @@ export class Architecture<T> implements IArchitecture {
         // 指定模块所属架构
         model.SetArchitecture(<any>this);
 
-        this.mContianer.Register(model.GetClassName(), model);
+        let className = (<any>model).constructor.name;
+        this.mContianer.Register(className, model);
 
         if (!this.mInited) {
             this.mModels.push(model);
@@ -89,9 +90,11 @@ export class Architecture<T> implements IArchitecture {
     }
 
     public RegisterSystem<T extends ISystem>(system: T): void {
+        // 指定System所属架构
         system.SetArchitecture(<any>this);
 
-        this.mContianer.Register(system.GetClassName(), system);
+        let className = (<any>system).constructor.name;
+        this.mContianer.Register(className, system);
 
         if (!this.mInited) {
             this.mSystems.push(system);
@@ -101,20 +104,24 @@ export class Architecture<T> implements IArchitecture {
     }
 
     public RegisterUtility<T extends IUtility>(utility: T): void {
-        this.mContianer.Register(utility.GetClassName(), utility);
-        console.error("register utility: " + utility.GetClassName());
+        // 指定Utility所属架构
+        utility.SetArchitecture(<any>this);
+
+        let className = (<any>utility).constructor.name;
+        this.mContianer.Register(className, utility);
     }
 
-    public GetSystem<T extends ISystem>(key: string): T {
-        return this.mContianer.Get<T>(key);
+    public GetSystem<T extends ISystem>(type: { prototype: T }): T {
+        return this.mContianer.Get<T>(type);
     }
 
-    public GetUtility<T extends IUtility>(key: string): T {
-        return this.mContianer.Get<T>(key);
+    public GetUtility<T extends IUtility>(type: { prototype: T }): T {
+        console.log(typeof type);
+        return this.mContianer.Get<T>(type);
     }
 
-    public GetModel<T extends IModel>(key: string): T {
-        return this.mContianer.Get<T>(key);
+    public GetModel<T extends IModel>(type: { prototype: T }): T {
+        return this.mContianer.Get<T>(type);
     }
 
     public SendCommand<T extends ICommand>(command: T): void {
