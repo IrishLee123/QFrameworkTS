@@ -13,6 +13,8 @@ export class BindableProperty<T>{
         return this._value;
     }
 
+    private mOnValueChanged: Delegate<T> = null;
+
     public set value(v: T) {
         if (this._value == v) {
             return;
@@ -22,8 +24,6 @@ export class BindableProperty<T>{
         // invoke when value changed
         this.mOnValueChanged?.invoke(this._value);
     }
-
-    private mOnValueChanged: Delegate<T> = null;
 
     public RegisterOnValueChanged(valueChangeFunc: (v: T) => void, target: object = null): IUnRegister {
         if (!this.mOnValueChanged) {
