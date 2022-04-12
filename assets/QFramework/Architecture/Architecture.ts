@@ -3,6 +3,7 @@ import { EventSystem, IEventSystem, IUnRegister } from "../Event/EventSystem";
 import { IOCContainer } from "../IOC/IOCContainer";
 import { ICommand } from "./ICommand";
 import { IModel } from "./IModel";
+import { IQuery } from "./IQuery";
 import { ISystem } from "./ISystem";
 import { IUtility } from "./IUtility";
 
@@ -18,6 +19,7 @@ export interface IArchitecture {
 
     SendCommand<T extends ICommand>(command: T): void;
     SendEvent<T>(eventType: string, event?: T): void;
+    DoQuery<D, T extends IQuery<D>>(query: T): D;
 
     RegisterEvent<T>(eventType: string, onEvent: (e?: T) => void, target: object): IUnRegister;
     UnRegisterEvent<T>(eventType: string, onEvent: (e?: T) => void, target: object): void;
@@ -128,6 +130,13 @@ export class Architecture<T> implements IArchitecture {
         command.SetArchitecture(this);
         command.Execute();
         command.SetArchitecture(null);
+    }
+
+    public DoQuery<D, T extends IQuery<D>>(query: T): D {
+        query.SetArchitecture(this);
+        let result = query.DoQuery();
+        query.SetArchitecture(null);
+        return result;
     }
 
     private mEventSystem: IEventSystem = new EventSystem();

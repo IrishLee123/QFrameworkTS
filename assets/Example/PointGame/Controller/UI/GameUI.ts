@@ -2,6 +2,7 @@ import { IArchitecture } from "../../../../QFramework/Architecture/Architecture"
 import { AbstractController } from "../../../../QFramework/Architecture/IController";
 import { GameModel, IGameModel } from "../../Model/GameModel";
 import { PointGameApp } from "../../PointGameApp";
+import { GetScoreQuery } from "../../Query/GetScoreQuery";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,7 +13,7 @@ export class GameUI extends AbstractController {
     private currentScoreLab: cc.Label = null;
 
     protected start(): void {
-        this.currentScoreLab.string = "得分: " + this.GetModel<IGameModel>(GameModel).score.value
+        this.currentScoreLab.string = "得分: " + this.DoQuery<number, GetScoreQuery>(new GetScoreQuery())
 
         this.GetModel<IGameModel>(GameModel).score
             .RegisterOnValueChanged((v: number) => {

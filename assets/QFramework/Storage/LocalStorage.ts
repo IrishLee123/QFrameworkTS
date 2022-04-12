@@ -82,8 +82,4 @@ export class LocalStorage extends AbstractUtility {
             return result;
         }
     }
-
-    public Test() {
-
-    }
 }
